@@ -49,7 +49,7 @@ CREATE TABLE EventRequest (
     DateHeld DATE NOT NULL,
     DateReq DATE DEFAULT CURRENT_DATE,
     DateAuth DATE,
-    Status VARCHAR(20) DEFAULT 'PENDING' CHECK (Status IN ('PENDING', 'APPROVED', 'DENIED')),
+    Status_ VARCHAR(20) DEFAULT 'PENDING' CHECK (Status_ IN ('PENDING', 'APPROVED', 'DENIED')),
     EstCost DECIMAL(10, 2) NOT NULL,
     EstAudience INTEGER NOT NULL CHECK (EstAudience > 0),
     BudNo VARCHAR(8),

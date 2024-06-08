@@ -1,2 +1,9 @@
 SELECT CustNo, CustName, Phone, City
  FROM Customer;
+
+SELECT CustNo, CustName, Phone, City
+ FROM Customer
+ WHERE State = 'CO'
+ ;
+
+SELECT * FROM EventRequest;

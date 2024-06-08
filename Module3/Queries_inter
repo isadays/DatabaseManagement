@@ -11,10 +11,10 @@ SELECT *
  ORDER BY DateHeld;
 
 
-SELECT EventNo, DateHeld, Status, EstAudience
+SELECT EventNo, DateHeld, Status_, EstAudience
  FROM EventRequest
- WHERE (Status = 'Approved' AND EstAudience > 9000)
- OR (Status = 'Pending' AND EstAudience > 7000);
+ WHERE (Status_ = 'Approved' AND EstAudience > 9000)
+ OR (Status_ = 'Pending' AND EstAudience > 7000);
 
 SELECT EventNo, DateHeld, Customer.CustNo, CustName
  FROM EventRequest, Customer

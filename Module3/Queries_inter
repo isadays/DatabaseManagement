@@ -3,7 +3,55 @@ SELECT CustNo, CustName, Phone, City
 
 SELECT CustNo, CustName, Phone, City
  FROM Customer
- WHERE State = 'CO'
- ;
+ WHERE State = 'CO';
 
-SELECT * FROM EventRequest;
+SELECT *
+ FROM EventRequest
+ WHERE EstCost > 4000
+ ORDER BY DateHeld;
+
+
+SELECT EventNo, DateHeld, Status, EstAudience
+ FROM EventRequest
+ WHERE (Status = 'Approved' AND EstAudience > 9000)
+ OR (Status = 'Pending' AND EstAudience > 7000);
+
+SELECT EventNo, DateHeld, Customer.CustNo, CustName
+ FROM EventRequest, Customer
+ WHERE City = 'Boulder'
+ AND DateHeld BETWEEN '1-Dec-2022' AND '31-Dec-2022'
+ AND EventRequest.CustNo = Customer.CustNo;
+
+SELECT EventNo, DateHeld, Customer.CustNo, CustName
+ FROM EventRequest INNER JOIN Customer
+ ON EventRequest.CustNo = Customer.CustNo
+ WHERE City = 'Boulder'
+ AND DateHeld BETWEEN '1-Dec-2022' AND '31-Dec-2022' ;
+Alternative date formats for PostgreSQL
+
+SELECT EventNo, DateHeld, Customer.CustNo, CustName
+ FROM EventRequest, Customer
+ WHERE City = 'Boulder'
+ AND DateHeld BETWEEN '2022-12-01'AND '2022-12-31'
+ AND EventRequest.CustNo = Customer.CustNo;
+
+
+SELECT EventNo, DateHeld, Customer.CustNo, CustName
+ FROM EventRequest INNER JOIN Customer
+ ON EventRequest.CustNo = Customer.CustNo
+ WHERE City = 'Boulder'
+ AND DateHeld BETWEEN '2022-12-01'AND '2022-12-31';
+
+
+ SELECT PlanNo, AVG(NumberFld) AS AvgNumResources
+ FROM EventPlanLine
+ WHERE LocNo = 'L100'
+ GROUP BY PlanNo;
+
+
+SELECT PlanNo, AVG(NumberFld) AS AvgNumResources,
+ COUNT(*) AS NumEventLines
+ FROM EventPlanLine
+ WHERE LocNo = 'L100'
+ GROUP BY PlanNo
+ HAVING COUNT(*) > 1;

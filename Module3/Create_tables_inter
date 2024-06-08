@@ -43,7 +43,7 @@ CREATE TABLE Employee (
     FOREIGN KEY (MgrNo) REFERENCES Employee(EmpNo)
 );
 
--- Create EventRequest Table
+
 CREATE TABLE EventRequest (
     EventNo VARCHAR(8) PRIMARY KEY,
     DateHeld DATE NOT NULL,

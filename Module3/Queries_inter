@@ -10,11 +10,10 @@ SELECT *
  WHERE EstCost > 4000
  ORDER BY DateHeld;
 
-
 SELECT EventNo, DateHeld, Status_, EstAudience
- FROM EventRequest
- WHERE (Status_ = 'Approved' AND EstAudience > 9000)
- OR (Status_ = 'Pending' AND EstAudience > 7000);
+FROM EventRequest
+WHERE (Status_ = 'APPROVED' AND EstAudience > 9000)
+OR (Status_ = 'PENDING' AND EstAudience > 7000);
 
 SELECT EventNo, DateHeld, Customer.CustNo, CustName
  FROM EventRequest, Customer

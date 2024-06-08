@@ -1,11 +1,11 @@
 -- Executes in both Oracle and PostgreSQL
 
--- Drop tables if exists
--- DROP TABLE Enrollment;
--- DROP TABLE Offering;
--- DROP TABLE Student;
--- DROP TABLE Course;
--- DROP TABLE Faculty;
+--Drop tables if exists
+DROP TABLE Enrollment;
+DROP TABLE Offering;
+DROP TABLE Student;
+DROP TABLE Course;
+DROP TABLE Faculty;
 
 CREATE TABLE Student
 ( StdNo 	    CHAR(11)    CONSTRAINT StdNoRequired NOT NULL,

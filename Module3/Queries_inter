@@ -1,0 +1,2 @@
+SELECT CustNo, CustName, Phone, City
+ FROM Customer;

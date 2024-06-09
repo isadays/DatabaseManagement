@@ -1,0 +1,87 @@
+-- Create Facility Table
+CREATE TABLE Facility (
+    FacNo VARCHAR(8) PRIMARY KEY,
+    FacName VARCHAR(30) NOT NULL UNIQUE
+);
+
+-- Create Customer Table
+CREATE TABLE Customer (
+    CustNo VARCHAR(8) PRIMARY KEY,
+    CustName VARCHAR(50) NOT NULL,
+    Address VARCHAR(50) NOT NULL,
+    City VARCHAR(30) NOT NULL,
+    State CHAR(2) NOT NULL,
+    Zip VARCHAR(10) NOT NULL DEFAULT '80202',
+    Phone VARCHAR(11) NOT NULL,
+    Contact VARCHAR(35) NOT NULL,
+    Internal CHAR(1) NOT NULL DEFAULT 'Y'
+);
+
+-- Create Location Table
+CREATE TABLE Location (
+    LocNo VARCHAR(8) PRIMARY KEY,
+    LocName VARCHAR(30) NOT NULL,
+    FacNo VARCHAR(8) NOT NULL,
+    FOREIGN KEY (FacNo) REFERENCES Facility(FacNo)
+);
+
+-- Create ResourceTbl Table
+CREATE TABLE ResourceTbl (
+    ResNo VARCHAR(8) PRIMARY KEY,
+    ResName VARCHAR(30) NOT NULL UNIQUE,
+    Rate DECIMAL(10, 2) NOT NULL DEFAULT 1
+);
+
+-- Create Employee Table
+CREATE TABLE Employee (
+    EmpNo VARCHAR(8) PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    Department VARCHAR(25) NOT NULL,
+    Email VARCHAR(30) NOT NULL UNIQUE,
+    Phone VARCHAR(11) NOT NULL,
+    MgrNo VARCHAR(8),
+    FOREIGN KEY (MgrNo) REFERENCES Employee(EmpNo)
+);
+
+
+CREATE TABLE EventRequest (
+    EventNo VARCHAR(8) PRIMARY KEY,
+    DateHeld DATE NOT NULL,
+    DateReq DATE DEFAULT CURRENT_DATE,
+    DateAuth DATE,
+    Status_ VARCHAR(20) DEFAULT 'PENDING' CHECK (Status_ IN ('PENDING', 'APPROVED', 'DENIED')),
+    EstCost DECIMAL(10, 2) NOT NULL,
+    EstAudience INTEGER NOT NULL CHECK (EstAudience > 0),
+    BudNo VARCHAR(8),
+    CustNo VARCHAR(8) NOT NULL,
+    FacNo VARCHAR(8) NOT NULL,
+    FOREIGN KEY (CustNo) REFERENCES Customer(CustNo),
+    FOREIGN KEY (FacNo) REFERENCES Facility(FacNo)
+);
+
+-- Create EventPlan Table
+CREATE TABLE EventPlan (
+    PlanNo VARCHAR(8) PRIMARY KEY,
+    Notes VARCHAR(50),
+    WorkDate DATE NOT NULL,
+    Activity VARCHAR(50) NOT NULL,
+    EventNo VARCHAR(8) NOT NULL,
+    EmpNo VARCHAR(8),
+    FOREIGN KEY (EventNo) REFERENCES EventRequest(EventNo) ON DELETE CASCADE,
+    FOREIGN KEY (EmpNo) REFERENCES Employee(EmpNo)
+);
+
+-- Create EventPlanLine Table
+CREATE TABLE EventPlanLine (
+    PlanNo VARCHAR(8),
+    LineNo INTEGER,
+    TimeStart TIMESTAMP NOT NULL,
+    TimeEnd TIMESTAMP NOT NULL,
+    ResourceCnt INTEGER NOT NULL,
+    LocNo VARCHAR(8) NOT NULL,
+    ResNo VARCHAR(8) NOT NULL,
+    PRIMARY KEY (PlanNo, LineNo),
+    FOREIGN KEY (PlanNo) REFERENCES EventPlan(PlanNo) ON DELETE CASCADE,
+    FOREIGN KEY (LocNo) REFERENCES Location(LocNo),
+    FOREIGN KEY (ResNo) REFERENCES ResourceTbl(ResNo)
+);

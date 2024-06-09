@@ -45,3 +45,21 @@ FROM EventRequest INNER JOIN Customer
 ON EventRequest.CustNo = Customer.CustNo 
 WHERE Status_ = 'APPROVED'
 GROUP BY Customer.CustNo, CustName;
+
+/* QUESTION 4 */
+
+SELECT EventPlan.EmpNo, Employee.EmpName, strftime('%m', WorkDate) AS WorkDateMonth, COUNT(*) AS CntEventPlans, SUM(EventRequest.EstCost) AS SumEstCost
+FROM EventPlan, Employee, EventRequest
+WHERE WorkDate BETWEEN '2022-12-01' AND '2022-12-31'
+AND EventPlan.EmpNo = Employee.EmpNo
+AND EventPlan.EventNo = EventRequest.EventNo
+GROUP BY EventPlan.EmpNo, Employee.EmpName, strftime('%m', WorkDate);
+
+
+SELECT EventPlan.EmpNo, Employee.EmpName, strftime('%m', WorkDate) AS WorkDateMonth, COUNT(*) AS CntEventPlans, SUM(EventRequest.EstCost) AS SumEstCost
+FROM EventPlan
+INNER JOIN Employee ON EventPlan.EmpNo = Employee.EmpNo
+INNER JOIN EventRequest ON EventPlan.EventNo = EventRequest.EventNo
+WHERE WorkDate BETWEEN '2022-12-01' AND '2022-12-31'
+GROUP BY EventPlan.EmpNo, Employee.EmpName, strftime('%m', WorkDate);
+

@@ -63,3 +63,18 @@ INNER JOIN EventRequest ON EventPlan.EventNo = EventRequest.EventNo
 WHERE WorkDate BETWEEN '2022-12-01' AND '2022-12-31'
 GROUP BY EventPlan.EmpNo, Employee.EmpName, strftime('%m', WorkDate);
 
+/* QUESTION 5 */ 
+
+INSERT INTO Customer (CustNo, CustName, Address, Internal, Contact, Phone, City, State, Zip)
+VALUES ('C9999999', 'Isabela Dias', '123 Any Street', 'Y', 'Self', '720000',
+ 'Denver', 'CO', '80204');
+
+/* QUESTION 6 */
+UPDATE Resourcetbl
+ SET Rate = Rate * 1.1
+ WHERE ResName = 'nurse';
+
+
+ /* QUESTION 7 */ 
+ DELETE FROM Customer
+ WHERE CustNo = 'C9999999';

@@ -5,7 +5,6 @@ WHERE Customer.City = 'Boulder' AND DateHeld BETWEEN '1-Jan-2022' AND '31-Dec-20
 AND EventRequest.CustNo = Customer.CustNo
 AND EventRequest.FacNo = Facility.FacNo;
 
-/* QUESTION 1 */ 
 SELECT EventRequest.EventNo, EventRequest.DateHeld, Customer.CustNo, Customer.CustName, Facility.FacNo, Facility.FacName
 FROM EventRequest
 INNER JOIN Customer ON EventRequest.CustNo = Customer.CustNo
@@ -33,3 +32,16 @@ AND EventRequest.EstCost/EventRequest.EstAudience < 0.2
 
 
 /* QUESTION 3 */ 
+
+SELECT Customer.CustNo, Customer.CustName, SUM(EstCost) AS AudCost
+FROM EventRequest, Customer
+WHERE Status_ = 'APPROVED'
+AND EventRequest.CustNo = Customer.CustNo
+GROUP BY Customer.CustNo, CustName;
+
+
+SELECT Customer.CustNo, Customer.CustName, SUM(EstCost) AS AudCost
+FROM EventRequest INNER JOIN Customer
+ON EventRequest.CustNo = Customer.CustNo 
+WHERE Status_ = 'APPROVED'
+GROUP BY Customer.CustNo, CustName;

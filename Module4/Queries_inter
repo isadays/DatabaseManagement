@@ -10,4 +10,25 @@ SELECT EventRequest.EventNo, EventRequest.DateHeld, Customer.CustNo, Customer.Cu
 FROM EventRequest
 INNER JOIN Customer ON EventRequest.CustNo = Customer.CustNo
 INNER JOIN Facility ON  EventRequest.FacNo = Facility.FacNo
-WHERE Customer.City = 'Boulder' AND EventRequest.DateHeld BETWEEN '1-Jan-2022' AND '31-Dec-2022';
+WHERE Customer.City = 'Boulder' AND EventRequest.DateHeld BETWEEN '1-Jan-2022' AND '31-Dec-2022'
+;
+
+
+/* QUESTION 2 */ 
+SELECT EventRequest.EventNo, EventRequest.DateHeld, Customer.CustNo, Customer.CustName, Facility.FacNo, Facility.FacName
+FROM EventRequest, Customer, Facility
+WHERE Customer.City = 'Boulder' AND DateHeld BETWEEN '1-Jan-2022' AND '31-Dec-2022'
+AND EventRequest.CustNo = Customer.CustNo
+AND EventRequest.FacNo = Facility.FacNo
+AND EventRequest.EstCost/EventRequest.EstAudience < 0.2
+;
+
+
+/* QUESTION 1 */ 
+SELECT EventRequest.EventNo, EventRequest.DateHeld, Customer.CustNo, Customer.CustName, Facility.FacNo, Facility.FacName
+FROM EventRequest
+INNER JOIN Customer ON EventRequest.CustNo = Customer.CustNo
+INNER JOIN Facility ON  EventRequest.FacNo = Facility.FacNo
+WHERE Customer.City = 'Boulder' AND EventRequest.DateHeld BETWEEN '1-Jan-2022' AND '31-Dec-2022'
+AND EventRequest.EstCost/EventRequest.EstAudience < 0.2
+;

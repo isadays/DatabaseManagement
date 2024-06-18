@@ -1,0 +1,83 @@
+-- Drop tables if they exist
+DROP TABLE IF EXISTS SSSales;
+DROP TABLE IF EXISTS SSCustomer;
+DROP TABLE IF EXISTS SSItem;
+DROP TABLE IF EXISTS SSStore;
+DROP TABLE IF EXISTS SSDivision;
+DROP TABLE IF EXISTS SSTimeDim;
+
+-- Create tables
+CREATE TABLE SSCustomer(
+  CustId      TEXT NOT NULL,  -- Changed CHAR to TEXT
+  CustName    TEXT NOT NULL,
+  CustPhone   TEXT NOT NULL,
+  CustStreet  TEXT NOT NULL,
+  CustCity    TEXT NOT NULL,
+  CustState   TEXT NOT NULL,
+  CustZip     TEXT NOT NULL,
+  CustNation  TEXT NOT NULL,
+  PRIMARY KEY (CustId)
+);
+
+CREATE TABLE SSDivision
+(
+  DivId       TEXT NOT NULL,
+  DivName     TEXT NOT NULL,
+  DivManager  TEXT NOT NULL,
+  PRIMARY KEY (DivId)
+);
+
+CREATE TABLE SSStore
+(
+  StoreId       TEXT NOT NULL,
+  DivId         TEXT NOT NULL,
+  StoreManager  TEXT NOT NULL,
+  StoreStreet   TEXT NOT NULL,
+  StoreCity     TEXT NOT NULL,
+  StoreState    TEXT NOT NULL,
+  StoreZip      TEXT NOT NULL,
+  StoreNation   TEXT NOT NULL,
+  PRIMARY KEY (StoreId),
+  FOREIGN KEY (DivId) REFERENCES SSDivision (DivId)
+);
+
+CREATE TABLE SSItem
+(
+  ItemId        TEXT NOT NULL,
+  ItemName      TEXT NOT NULL,
+  ItemBrand     TEXT NOT NULL,
+  ItemCategory  TEXT NOT NULL,
+  ItemUnitPrice REAL NOT NULL,  -- Changed DECIMAL to REAL
+  PRIMARY KEY (ItemId)
+);
+
+CREATE TABLE SSTimeDim
+(
+  TimeNo          INTEGER PRIMARY KEY AUTOINCREMENT,  -- Added AUTOINCREMENT
+  TimeDay         INTEGER NOT NULL,
+  TimeMonth       INTEGER NOT NULL,
+  TimeQuarter     INTEGER NOT NULL,
+  TimeYear        INTEGER NOT NULL,
+  TimeDayofWeek   INTEGER NOT NULL,
+  TimeFiscalYear  INTEGER NOT NULL,
+  CHECK (TimeDay BETWEEN 1 AND 31),
+  CHECK (TimeMonth BETWEEN 1 AND 12),
+  CHECK (TimeQuarter BETWEEN 1 AND 4),
+  CHECK (TimeDayOfWeek BETWEEN 1 AND 7)
+);
+
+CREATE TABLE SSSales
+(
+  SalesNo     INTEGER PRIMARY KEY AUTOINCREMENT,  -- Added AUTOINCREMENT
+  SalesUnits  INTEGER NOT NULL,
+  SalesDollar REAL NOT NULL,  -- Changed DECIMAL to REAL
+  SalesCost   REAL NOT NULL,
+  CustId      TEXT NOT NULL,
+  ItemId      TEXT NOT NULL,
+  StoreId     TEXT NOT NULL,
+  TimeNo      INTEGER NOT NULL,
+  FOREIGN KEY (CustId) REFERENCES SSCustomer (CustId),
+  FOREIGN KEY (ItemId) REFERENCES SSItem (ItemId),
+  FOREIGN KEY (StoreId) REFERENCES SSStore (StoreId),
+  FOREIGN KEY (TimeNo) REFERENCES SSTimeDim (TimeNo)
+);

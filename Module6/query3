@@ -109,3 +109,5 @@ SELECT 0, 0, 0, SUM(SalesDollar) AS SumSales
    AND StoreNation IN ('USA', 'Canada') 
    AND TimeYear BETWEEN 2020 AND 2021
  ORDER BY 1, 2, 3;
+
+

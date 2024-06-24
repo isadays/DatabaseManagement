@@ -143,8 +143,7 @@ where TransTypeKey = 5 and
  i.DateKey = d.DateKey;
 
 
-
- -- UNION and UNION ALL produce the same result
+-- UNION and UNION ALL produce the same result
 select CompanyName, BPName, sum(ExtCost) as tot_cost,
  sum(Quantity) as tot_qty
 from inventory_fact i, company_dim cd, branch_plant_dim bp
@@ -167,4 +166,40 @@ from inventory_fact i, company_dim cd, branch_plant_dim bp
 where TransTypeKey = 2 and
  bp.CompanyKey = cd.CompanyKey and
  i.branchplantkey = bp.branchplantkey;
-Query 8: Sales Order Shipments by Name and Combination of Yea
+
+
+ -- CUBE with composite columns
+select Name, CalYear, CalQuarter, sum(ExtCost) as tot_cost, count(*) as Cnt
+from inventory_fact i, cust_vendor_dim c, date_dim d
+where TransTypeKey = 5 and
+ d.Calyear BETWEEN 2021 AND 2022 AND
+ d.datekey = i.datekey and
+ i.CustVendorKey = c.CustVendorKey AND
+ i.DateKey = d.DateKey
+group by CUBE(c.Name, (CalYear, d.CalQuarter));
+
+
+
+-- PostgreSQL solution
+select CalMonth, AddrCatCode1,
+ GROUPING(AddrCatCode1, d.CalMonth) AS GroupNo,
+ sum(ExtCost) as tot_cost,
+ sum(Quantity) as tot_qty
+from inventory_fact i, cust_vendor_dim c, date_dim d
+where TransTypeKey = 5 and
+ d.Calyear = 2021 and
+ i.CustVendorKey = c.CustVendorKey and
+ i.DateKey = d.DateKey
+group by CUBE(AddrCatCode1, d.calmonth);
+
+
+
+-- Nested ROLLUP inside GROUPING SETS operator
+select Name, CalYear, CalQuarter, sum(ExtCost) as tot_cost, count(*) as Cnt
+from inventory_fact i, cust_vendor_dim c, date_dim d
+where TransTypeKey = 5 and
+ d.Calyear BETWEEN 2021 AND 2022 AND
+ d.datekey = i.datekey and
+ i.CustVendorKey = c.CustVendorKey AND
+ i.DateKey = d.DateKey
+group by GROUPING SETS (c.Name, ROLLUP(CalYear, d.CalQuarter));

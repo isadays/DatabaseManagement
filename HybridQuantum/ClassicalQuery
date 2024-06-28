@@ -1,0 +1,7 @@
+CREATE TABLE Transactions (
+    TransactionID INT PRIMARY KEY,
+    Amount DECIMAL(10, 2),
+    Timestamp TIMESTAMP
+);
+
+INSERT INTO Transactions (TransactionID, Amount, Timestamp) VALUES (1, 100.00, '2024-01-01 00:00:00');
